@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for
 import sqlite3
 from passlib.hash import pbkdf2_sha256
 import serial
-ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this in production
