@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 import sqlite3
 from passlib.hash import pbkdf2_sha256
+import serial
+ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this in production
@@ -52,7 +54,7 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect('/login')
 
     lights = 'OFF'
     fans = 'OFF'
@@ -60,6 +62,13 @@ def dashboard():
     if request.method == 'POST':
         lights = request.form.get('lights', 'OFF')
         fans = request.form.get('fans', 'OFF')
+
+        # Send data over serial port
+        try:
+            ser.write(f'LIGHT:{lights}\n'.encode())
+            ser.write(f'FANS:{fans}\n'.encode())
+        except serial.SerialException as e:
+            print("Error sending to serial:", e)
 
     return render_template('dashboard.html', username=session['username'], lights=lights, fans=fans)
 
