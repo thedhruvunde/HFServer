@@ -1,0 +1,24 @@
+<h2>Welcome, {{ username }}</h2>
+<form method="POST">
+    <label>Lights:</label>
+    <select name="lights">
+        <option value="ON" {% if lights="" ="ON" %}selected{% endif %}>
+            ON
+        </option>
+        <option value="OFF" {% if lights="" ="OFF" %}selected{% endif %}>
+            OFF
+        </option></select
+    ><br />
+
+    <label>Fans:</label>
+    <select name="fans">
+        <option value="ON" {% if fans="" ="ON" %}selected{% endif %}>ON</option>
+        <option value="OFF" {% if fans="" ="OFF" %}selected{% endif %}>
+            OFF
+        </option></select
+    ><br /><br />
+
+    <input type="submit" value="Update" />
+</form>
+
+<a href="/logout">Logout</a>
