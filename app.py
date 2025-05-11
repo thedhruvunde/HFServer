@@ -54,12 +54,14 @@ def dashboard():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        lights = request.form.get('lights')
-        fans = request.form.get('fans')
-        return render_template('dashboard.html', username=session['username'], lights=lights, fans=fans)
+    lights = 'OFF'
+    fans = 'OFF'
 
-    return render_template('dashboard.html', username=session['username'], lights='OFF', fans='OFF')
+    if request.method == 'POST':
+        lights = request.form.get('lights', 'OFF')
+        fans = request.form.get('fans', 'OFF')
+
+    return render_template('dashboard.html', username=session['username'], lights=lights, fans=fans)
 
 @app.route('/logout')
 def logout():
